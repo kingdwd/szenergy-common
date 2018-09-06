@@ -1,0 +1,6 @@
+projectKey=szelectricityGazebo:common
+serverUrl=http://localhost:9000
+serverVersion=6.7.4.38452
+dashboardUrl=http://localhost:9000/dashboard/index/szelectricityGazebo:common
+ceTaskId=AWSGEFXCd-Lr-VTqr-jv
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWSGEFXCd-Lr-VTqr-jv

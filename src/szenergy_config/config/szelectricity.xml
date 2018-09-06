@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<vehicle>
+    <name>szelectricity</name>
+    <kinematic>
+        <wheelbase>1.6</wheelbase>
+        <front_track>1.02</front_track>
+        <rear_track>0.8</rear_track>
+    </kinematic>
+    <wheelparameters>
+        <radius>0.278</radius>
+    </wheelparameters>
+    <ros>
+        <control>
+            <steer_topic></steer_topic>
+            <throttle_topic></throttle_topic>
+        </control>
+    </ros>
+</vehicle>
