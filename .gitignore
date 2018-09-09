@@ -1,0 +1,7 @@
+./.catkin_tools/
+./.scannerwork/
+./.vscode/
+./build/
+./devel/
+./logs/
+./reports/
