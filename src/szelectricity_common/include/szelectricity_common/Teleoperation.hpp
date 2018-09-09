@@ -22,38 +22,53 @@
 #include <std_msgs/Float64.h>
 #include <std_msgs/Bool.h>
 
+#include "SzenergyConstants.hpp"
+
 namespace szenergy
 {
+    const double DEFAULT_MAX_BRAKE_RATE = 0.65; ///< Default brake rate for teleoperation purpose
+
+    /**
+     * @brief: control structure ready to publish messages on ROS topics
+     * 
+     * */
     struct RosTeleopPubState
     {
-        std_msgs::Float64 msg_torque; /// Torque message to be published
-        std_msgs::Float64 msg_steer;  /// Steer message to be published
-        std_msgs::Bool msg_brake;     /// Brake message to be published
+        std_msgs::Float64 msg_torque; ///< Torque message to be published
+        std_msgs::Float64 msg_steer;  ///< Steer message to be published
+        std_msgs::Bool msg_brake;     ///< Brake message to be published
     };
 
+    /**
+     * @brief: Structure to store required parameters for teleoperation
+     * */
     struct TeleopState 
     {
-        const double steerMin; /// Minimal steering angle (in radians)
-        const double steerMax; /// Maximal steering angle (in radians)
-        const double effortchange; /// Maximal change of effort reference (used for keyboard teleoperation)
-        const double maxBrakeRate; /// Maximal brake rate (decay)
-        const double update_rate; /// Pre-defined update rate for teleoperation
-        double effort; /// Reference throttle
-        double steer_angle; /// Current reference steer angle
-        double gaspedal; /// Current gaspedal measurement
+        const double steerMin; ///< Minimal steering angle (in radians)
+        const double steerMax; ///< Maximal steering angle (in radians)
+        const double effortchange; ///< Maximal change of effort reference (used for keyboard teleoperation)
+        const double maxBrakeRate; ///< Maximal brake rate (decay)
+        const double update_rate; ///< Pre-defined update rate for teleoperation
+        double effort; ///< Reference throttle
+        double steer_angle; ///< Current reference steer angle
+        double gaspedal; ///< Current gaspedal measurement
         
-        bool reverse; /// Switch forward/reverse
+        bool reverse; ///< Switch forward/reverse
         ///      TRUE: reverse
         ///      FALSE (default): forward 
 
         /**
-         * @brief: Class to store required parameters for teleoperation
+         * @param<steerMax>: max steer range (in radians)
+         * @param<maxAcceleration>: maximal acceleration rate of the target vehicle
+         * @param<maxBrakeRate>: maximal brake rate of the target vehicle
+         * @param<updateRate>: update rate of the teleoperation
+         * 
          * */
         TeleopState(const float steerMin,
             const double steerMax,
             const double maxAcceleration,
-            const double maxBrakeRate = 0.65,
-            const double updateRate = 50.0): 
+            const double maxBrakeRate = DEFAULT_MAX_BRAKE_RATE,
+            const double updateRate = szenergy::TELEOP_UPDATE_RATE): 
                 steerMin(steerMin), steerMax(steerMax), 
                 effortchange(maxAcceleration),
                 maxBrakeRate(maxBrakeRate),

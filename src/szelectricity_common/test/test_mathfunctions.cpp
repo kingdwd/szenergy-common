@@ -23,6 +23,11 @@ TEST(CommonMathTest, clampMinTest1)
     ASSERT_EQ(szenergy::Clamp(-1.5, -2.5, 1), -1.5);
 }
 
+TEST(CommonMathTest, clampMaxTest0)
+{
+    ASSERT_EQ(szenergy::Clamp(4.0, -2.5, 1), 1);
+}
+
 TEST(CommonMathTest, sgnTestNegative)
 {
     ASSERT_EQ(-1, szenergy::Sgn<double>(-3.44343534));

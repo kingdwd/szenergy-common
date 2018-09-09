@@ -11,8 +11,8 @@
     </wheelparameters>
     <ros>
         <control>
-            <steer_topic></steer_topic>
-            <throttle_topic></throttle_topic>
+            <steer_topic>/steerangle</steer_topic>
+            <throttle_topic>/throttle</throttle_topic>
         </control>
     </ros>
 </vehicle>
