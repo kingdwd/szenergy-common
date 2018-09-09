@@ -16,6 +16,15 @@
 #include <stdexcept>
 
 /**
+ * @brief: Share the configuration path with other ROS based applications
+ * 
+ * */
+const static std::string GetConfigPath()
+{
+    return ros::package::getPath("szenergy_config")+"/config/";
+}
+
+/**
  *  @brief: A class that reads the configuration and returns with
  *        required defining parameters
  * */
@@ -153,14 +162,7 @@ public:
         return errorParse==tinyxml2::XML_SUCCESS;
     }
 
-    /**
-     * @brief: Share the configuration path with other ROS based applications
-     * 
-     * */
-    const static std::string GetConfigPath()
-    {
-        return ros::package::getPath("szenergy_config")+"/config/";
-    }
+    
     
     /**
      * @brief: Return with the most actual vehicle parameters
@@ -204,6 +206,33 @@ public:
         else
         {
             throw std::invalid_argument("NULL vec_param, cannot print summary");
+        }
+    }
+    
+};
+
+/**
+ * @brief: Class that generates an instance of configurer
+ * 
+ * */
+class ConfigurerFactory
+{
+public:
+    static std::unique_ptr<Configurer> createConfigurerFromPath(const std::string& path)
+    {
+        std::unique_ptr<Configurer> conf(new Configurer());
+        try
+        {
+            if(conf->ReadConfigFromFile(path)){
+                return std::move(conf);
+            }else{
+                // Otherwise, FATAL ERROR
+                throw std::invalid_argument("Unable to read configuration, exiting");
+            }
+        }
+        catch(const std::invalid_argument& e)
+        {
+            throw e;
         }
     }
 };

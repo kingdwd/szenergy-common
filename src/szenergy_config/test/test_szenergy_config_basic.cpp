@@ -9,7 +9,7 @@
 TEST(BasicSzenergyTest, SzenergyConfigTest)
 {
     Configurer conf;
-    const std::string filename = conf.GetConfigPath()+"szelectricity.xml";
+    const std::string filename = GetConfigPath()+"szelectricity.xml";
     std::cout << "Reading from: " << filename << std::endl;
     bool success = conf.ReadConfigFromFile(filename);
     ASSERT_TRUE(success);
@@ -43,7 +43,7 @@ TEST(BasicSzenergyTest, SzenergyConfigTestNullPath)
 TEST(BasicSzenergyTest, SzenergyConfigTestWrongPath)
 {
     Configurer conf;
-    const std::string filename = conf.GetConfigPath()+"dsfargeg.xml";
+    const std::string filename = GetConfigPath()+"dsfargeg.xml";
     bool success = conf.ReadConfigFromFile(filename);
     ASSERT_FALSE(success);
 }
