@@ -18,22 +18,12 @@ catkin run_tests
 #gcovr -r ./src/szelectricity_odometry/src/*.cpp ./src/szelectricity_odometry/include/szelectricity_odometry/*.hpp ./build -b -x -o reports/gcovr-report.szelectricity_common.b.xml
 gcovr --filter src/szelectricity_common --exclude src/szelectricity_common/test -x -o reports/gcovr-report.szelectricity_common.xml
 gcovr --filter src/szelectricity_common --exclude src/szelectricity_common/test -b -x -o reports/gcovr-report.szelectricity_common.xml
-gcovr --filter src/motor_driver --exclude src/motor_driver/test -x -o reports/gcovr-report.motor_driver.xml
-gcovr --filter src/motor_driver --exclude src/motor_driver/test -b -x -o reports/gcovr-report.motor_driver.xml
-gcovr --filter src/szelectricity_teleop --exclude src/szelectricity_teleop/test -x -o reports/gcovr-report.szelectricity_teleop.xml
-gcovr --filter src/szelectricity_teleop --exclude src/szelectricity_teleop/test -b -x -o reports/gcovr-report.szelectricity_teleop.xml
 gcovr --filter src/szenergy_config --exclude src/szenergy_config/test -x -o reports/gcovr-report.szenergy_config.xml
 gcovr --filter src/szenergy_config --exclude src/szenergy_config/test -b -x -o reports/gcovr-report.szenergy_config.xml
 
-# Engine control cppcheck
-cppcheck --xml --xml-version=2 --enable=all src/motor_driver/src/* 2> reports/cppcheck-report.szelectricity_common.xml
-cppcheck-htmlreport --source-dir=. --report-dir=reports/html/szelectricity_common --file=reports/cppcheck-report.szelectricity_common.xml
-# Szelectricity control cppcheck
-cppcheck --xml --xml-version=2 --enable=all src/tftree/src/*.cpp 2> reports/cppcheck-report.szelectricity_control.xml
-cppcheck-htmlreport --source-dir=. --report-dir=reports/html/szelectricity_control --file=reports/cppcheck-report.szelectricity_control.xml
-# Szelectricity teleop cppcheck
-cppcheck --xml --xml-version=2 --enable=all src/szelectricity_teleop/src/*.cpp 2> reports/cppcheck-report.szelectricity_control.xml
-cppcheck-htmlreport --source-dir=. --report-dir=reports/html/szelectricity_control --file=reports/cppcheck-report.szelectricity_control.xml
+# Szelectricity common
+cppcheck --xml --xml-version=2 --enable=all src/szelectricity_common/src/*.cpp 2> reports/cppcheck-report.szelectricity_common.xml
+cppcheck --xml --xml-version=2 --enable=all src/szelectricity_config/src/*.cpp 2> reports/cppcheck-report.szenergy-config.xml
 
 #firefox reports/html/gazebo_plugin/index.html
 # Scanner
