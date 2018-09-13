@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include "VehicleParameters.hpp"
+#include <szelectricity_common/VehicleParameters.hpp>
 
 using namespace szenergy;
 

@@ -6,8 +6,8 @@
 
 #include <string>
 
-#include "MathCommon.hpp"
-#include "Teleoperation.hpp"
+#include <szelectricity_common/MathCommon.hpp>
+#include <szelectricity_common/Teleoperation.hpp>
 
 namespace szenergy 
 {

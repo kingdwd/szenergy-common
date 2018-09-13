@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "VehicleParameters.hpp"
-#include "Teleoperation.hpp"
+#include <szelectricity_common/VehicleParameters.hpp>
+#include <szelectricity_common/Teleoperation.hpp>
 
 using namespace szenergy;
 

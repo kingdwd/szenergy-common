@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 
 
-#include "MathGeometry.hpp"
+#include <szelectricity_common/MathGeometry.hpp>
 
 #include <chrono>
 

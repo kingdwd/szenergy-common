@@ -1,4 +1,4 @@
-#include "MathCommon.hpp"
+#include <szelectricity_common/MathCommon.hpp>
 
 #include <gtest/gtest.h>
 

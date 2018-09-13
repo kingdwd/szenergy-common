@@ -1,7 +1,6 @@
 #ifndef SZENERGY_CONSTANTS_HPP
 #define SZENERGY_CONSTANTS_HPP
 
-#include "SzenergyConstants.hpp"
 
 namespace szenergy 
 {
