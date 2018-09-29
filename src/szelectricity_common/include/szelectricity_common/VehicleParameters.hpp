@@ -36,16 +36,32 @@ namespace szenergy
 
     /**
      *  @brief: Quadratic approximation of measurement points
-     *          of steer-front axle transmission
+     *          of steer-front axle transmission used for Ackermann geometries
      * */
-    double steerTransmissionPoly(double angsteer)
+    double steerTransmissionPoly(double steer_angle)
     {
-        const double s = Sgn<double>(angsteer);
-        const static double c2 = 0.00560926;
-        const static double c1 = 0.14515031;
-        const static double c0 = 0.00069702;
+        const double s = Sgn<double>(steer_angle);
+        const double sqr_angsteer = steer_angle*steer_angle;
+        const static double c2 = 0.00143;
+        const static double c1 = 0.1431;
+        const static double c0 = 0.001;
         
-        return angsteer!=0.0 ? s*c0+c1*angsteer+s*c2*angsteer*angsteer: 0.0;
+        return steer_angle!=0.0 ? s*(c0+c1*sqrt(sqr_angsteer)+c2*sqr_angsteer): 0.0;
+    }
+
+    /**
+     *  @brief: Quadratic approximation of measurement points
+     *          of steer-front axle transmission based on measurements
+     * */
+    double steerTransmissionDataPoly(double steer_angle)
+    {
+        const double sqr_angsteer = steer_angle*steer_angle;
+        const static double c3 = 0.001838;
+        const static double c2 = -0.00772;
+        const static double c1 = 0.14963;
+        const static double c0 = 0.000504;
+        
+        return steer_angle != 0.0 ? c3*sqr_angsteer*steer_angle+c2*sqr_angsteer+c1*steer_angle+c0: 0.0;
     }
 
     /**
