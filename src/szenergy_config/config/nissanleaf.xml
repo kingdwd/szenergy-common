@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<vehicle>
+    <name>nissanleaf</name>
+    <kinematic>
+        <wheelbase>2.7</wheelbase>
+        <front_track>1.54</front_track>
+        <rear_track>1.535</rear_track>
+    </kinematic>
+    <wheelparameters>
+        <radius>0.31623</radius>
+    </wheelparameters>
+    <ros>
+        <control>
+            <steer_topic>/steerangle</steer_topic>
+            <throttle_topic>/refvelocity</throttle_topic>
+        </control>
+    </ros>
+</vehicle>
