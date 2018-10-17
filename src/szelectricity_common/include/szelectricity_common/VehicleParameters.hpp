@@ -65,6 +65,34 @@ namespace szenergy
     }
 
     /**
+     * @brief: Odometry parameters
+     * 
+     * */
+    struct OdometryParameters
+    {
+        const std::string odom_topic_name;
+        const std::string steer_topic_name;
+        const std::string throttle_topic_name;
+        const std::vector<int> steer_joint_ids;
+        const std::vector<int> throttle_joint_ids;
+
+        OdometryParameters(
+            const std::string odom_topic_name,
+            const std::string steer_topic_name, 
+            const std::string throttle_topic_name, 
+            const std::vector<int> steer_joint_ids,
+            const std::vector<int> throttle_joint_ids): 
+                odom_topic_name(odom_topic_name),
+                steer_topic_name(steer_topic_name), 
+                throttle_topic_name(throttle_topic_name), 
+                steer_joint_ids(steer_joint_ids),
+                throttle_joint_ids(throttle_joint_ids)
+        {
+            
+        }
+    };
+
+    /**
      * @brief: Vehicle parameters that are used for kinematic-based
      * algorithms, calculations
      * */

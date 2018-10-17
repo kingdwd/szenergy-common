@@ -144,7 +144,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-#add_executable(load_config_node src/szenergy_config.cpp)
+add_executable(config_example src/config_example.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -154,12 +154,12 @@ include_directories(
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-#add_dependencies(load_config_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(config_example ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-#target_link_libraries(load_config_node
-#  ${catkin_LIBRARIES} ${Boost_LIBRARIES} tinyxml2
-#)
+target_link_libraries(config_example
+  ${catkin_LIBRARIES} ${Boost_LIBRARIES} tinyxml2
+)
 
 #############
 ## Install ##

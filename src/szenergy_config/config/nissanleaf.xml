@@ -1,18 +1,53 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <vehicle>
-    <name>nissanleaf</name>
-    <kinematic>
-        <wheelbase>2.7</wheelbase>
-        <front_track>1.54</front_track>
-        <rear_track>1.535</rear_track>
-    </kinematic>
+  <name>nissan_leaf</name>
+  <kinematic>
+    <wheelbase>2.7</wheelbase>
+    <front_track>1.54</front_track>
+    <rear_track>1.535</rear_track>
     <wheelparameters>
-        <radius>0.31623</radius>
+      <radius>0.31623</radius>
     </wheelparameters>
-    <ros>
-        <control>
-            <steer_topic>/steerangle</steer_topic>
-            <throttle_topic>/refvelocity</throttle_topic>
-        </control>
-    </ros>
+  </kinematic>
+  <ros>
+    <odom>
+      <odom_topic>
+        <topicname>odom</topicname>
+        <frequency>50.0</frequency>
+      </odom_topic>
+      <steer_topic>
+        <topicname>steer</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>0</jointdefinition>
+        <jointdefinition>1</jointdefinition>
+      </steer_topic>
+      <throttle_topic>
+        <topicname>throttle</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>3</jointdefinition>
+      </throttle_topic>
+    </odom>
+    <vehicle>
+      <steer_topic>
+        <topicname>steer</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>0</jointdefinition>
+        <jointdefinition>1</jointdefinition>
+      </steer_topic>
+    </vehicle>
+    <imu>
+      <imu_topic>
+        <topicname>imu</topicname>
+        <frequency>40.0</frequency>
+      </imu_topic>
+    </imu>
+    <vehicle>
+      <steer_topic>
+        <topicname>steer</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>0</jointdefinition>
+        <jointdefinition>1</jointdefinition>
+      </steer_topic>
+    </vehicle>
+  </ros>
 </vehicle>

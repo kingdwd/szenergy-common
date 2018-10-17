@@ -105,10 +105,10 @@ const std::string test_config_basic = "<?xml version=\"1.0\" ?>\
             <wheelbase>1.0</wheelbase>\
             <front_track>1.0</front_track>\
             <rear_track>0.5</rear_track>\
-        </kinematic>\
-        <wheelparameters>\
-            <radius>0.2</radius>\
-        </wheelparameters>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\
+        </kinematic>\        
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\

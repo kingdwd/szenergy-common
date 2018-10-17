@@ -33,6 +33,7 @@ class Configurer
 private:
     tinyxml2::XMLDocument doc; ///< Root of the XML configuration
     std::unique_ptr<szenergy::VehicleParameters> vec_param; ///< Vehicle parameters
+    std::unique_ptr<szenergy::OdometryParameters> odom_param; ///< Odometry parameters
 public:
     /**
      * @brief: Read config from file
@@ -82,6 +83,39 @@ public:
         }
     }
 
+    void ReadOdomParameters(tinyxml2::XMLElement* ros_element)
+    {
+        std::cout << "Getting odometry parameters" << std::endl;
+        tinyxml2::XMLElement* odometry_element = ros_element->FirstChildElement("odom");
+        std::vector<int> steer_joint_ids;
+        std::vector<int> throttle_joint_ids;
+        
+        for (tinyxml2::XMLElement* jointdef_element = odometry_element->FirstChildElement("steer_topic")->FirstChildElement("jointdefinition");
+            jointdef_element != nullptr; 
+            jointdef_element = jointdef_element->NextSiblingElement("jointdefinition"))
+        {
+            steer_joint_ids.push_back(std::atol(jointdef_element->GetText()));
+        }
+        
+        for (tinyxml2::XMLElement* jointdef_element = odometry_element->FirstChildElement("throttle_topic")->FirstChildElement("jointdefinition");
+            jointdef_element != nullptr; 
+            jointdef_element = jointdef_element->NextSiblingElement("jointdefinition"))
+        {
+            throttle_joint_ids.push_back(std::atol(jointdef_element->GetText()));
+        }
+        
+        odom_param.reset (new szenergy::OdometryParameters(
+            odometry_element->FirstChildElement("odom_topic")->FirstChildElement("topicname")->GetText(),
+            odometry_element->FirstChildElement("steer_topic")->FirstChildElement("topicname")->GetText(),
+            odometry_element->FirstChildElement("throttle_topic")->FirstChildElement("topicname")->GetText(),
+            steer_joint_ids,
+            throttle_joint_ids
+        ));
+        
+        std::cout << "Returning everything" << std::endl;
+        
+    }
+
     /**
      * @brief: Read elements from a previously parsed XML element
      * */
@@ -104,7 +138,7 @@ public:
                 tinyxml2::XMLElement* wheelbase_element = kinematic_element->FirstChildElement("wheelbase");
                 tinyxml2::XMLElement* fronttrack_element = kinematic_element->FirstChildElement("front_track");
                 tinyxml2::XMLElement* reartrack_element = kinematic_element->FirstChildElement("rear_track");
-                tinyxml2::XMLElement* wheelp_element = vehicle_element->FirstChildElement("wheelparameters");
+                tinyxml2::XMLElement* wheelp_element = kinematic_element->FirstChildElement("wheelparameters");
                 // If any elements are invalid raise error, otherwise set parameters
                 if (wheelbase_element != nullptr &&
                     fronttrack_element != nullptr &&
@@ -143,6 +177,24 @@ public:
             {
                 throw std::invalid_argument("Kinematic element not defined");
             }
+            tinyxml2::XMLElement* ros_element = vehicle_element->FirstChildElement("ros");
+
+            if (ros_element!=nullptr)
+            {
+                ReadOdomParameters(ros_element);
+                std::cout << "Reading odometry parameters" << std::endl;
+                /*
+                odom_param.reset(new szenergy::OdometryParameters(odomp.odom_topic_name,
+                    odomp.steer_topic_name,
+                    odomp.throttle_topic_name,
+                    odomp.steer_joint_ids,
+                    odomp.throttle_joint_ids));
+                */
+            }
+            else
+            {
+                throw std::invalid_argument("ROS element not defined");
+            }
         }
         else
         {
@@ -162,6 +214,28 @@ public:
         return errorParse==tinyxml2::XML_SUCCESS;
     }
 
+
+    /**
+     * @brief: Return with the most actual vehicle parameters
+     * */
+    const szenergy::OdometryParameters OdometryParameters()
+    {
+        // If the vehicle parameters are not available raise an error
+        // otherwise return with a copy of it
+        if (odom_param!=nullptr)
+        {
+            return szenergy::OdometryParameters(odom_param->odom_topic_name,
+                odom_param->steer_topic_name,
+                odom_param->throttle_topic_name,
+                odom_param->steer_joint_ids,
+                odom_param->throttle_joint_ids
+            );
+        }
+        else
+        {
+            throw std::invalid_argument("NULL vec_param, cannot return");
+        }
+    }
     
     
     /**
@@ -202,11 +276,29 @@ public:
             std::cout << "Wheelbase:" << '\t' << vec_param->wheelbase << std::endl;
             std::cout << "Front track:" << '\t' << vec_param->front_track << std::endl;
             std::cout << "Rear track:" << '\t' << vec_param->rear_track << std::endl;
-        }
+        }        
         else
         {
             throw std::invalid_argument("NULL vec_param, cannot print summary");
         }
+        if (odom_param!=nullptr)
+        {
+            std::cout << "---- Odom parameters loaded --- " << std::endl;
+            std::cout << "Odom topic name:" << '\t' << odom_param->odom_topic_name << std::endl;
+            std::cout << "Steer topic name:" << '\t' << odom_param->steer_topic_name << std::endl;
+            std::cout << "Throttle topic name:" << '\t' << odom_param->throttle_topic_name << std::endl;
+            std::cout << "Throttle joint ids:" << '\t';
+            for (const auto& v: odom_param->throttle_joint_ids){
+                std::cout << v << '\t'; 
+            }
+            std::cout << std::endl;
+            std::cout << "Steer joint ids:" << '\t';
+            for (const auto& v: odom_param->steer_joint_ids){
+                std::cout << v << '\t'; 
+            }
+            std::cout << std::endl;
+        }
+        
     }
     
 };

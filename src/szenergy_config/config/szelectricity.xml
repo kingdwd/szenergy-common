@@ -5,10 +5,11 @@
         <wheelbase>1.6</wheelbase>
         <front_track>1.02</front_track>
         <rear_track>0.8</rear_track>
+        <wheelparameters>
+            <radius>0.278</radius>
+        </wheelparameters>
     </kinematic>
-    <wheelparameters>
-        <radius>0.278</radius>
-    </wheelparameters>
+    
     <ros>
         <control>
             <steer_topic>/steerangle</steer_topic>
