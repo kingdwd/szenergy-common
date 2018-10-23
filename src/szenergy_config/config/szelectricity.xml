@@ -1,19 +1,39 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <vehicle>
-    <name>szelectricity</name>
-    <kinematic>
-        <wheelbase>1.6</wheelbase>
-        <front_track>1.02</front_track>
-        <rear_track>0.8</rear_track>
-        <wheelparameters>
-            <radius>0.278</radius>
-        </wheelparameters>
-    </kinematic>
-    
-    <ros>
-        <control>
-            <steer_topic>/steerangle</steer_topic>
-            <throttle_topic>/throttle</throttle_topic>
-        </control>
-    </ros>
+  <name>szelectricity</name>
+  <kinematic>
+    <wheelbase>1.6</wheelbase>
+    <front_track>1.02</front_track>
+    <rear_track>0.8</rear_track>
+    <wheelparameters>
+      <radius>0.278</radius>
+    </wheelparameters>
+  </kinematic>
+  <ros>
+    <vehicle>
+      <steer_topic>
+        <topicname>steer</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>1</jointdefinition>
+        <jointdefinition>2</jointdefinition>
+      </steer_topic>
+    </vehicle>
+    <odom>
+      <odom_topic>
+        <topicname>odom</topicname>
+        <frequency>50.0</frequency>
+      </odom_topic>
+      <steer_topic>
+        <topicname>steer</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>1</jointdefinition>
+        <jointdefinition>2</jointdefinition>
+      </steer_topic>
+      <throttle_topic>
+        <topicname>throttle</topicname>
+        <frequency>100.0</frequency>
+        <jointdefinition>0</jointdefinition>
+      </throttle_topic>
+    </odom>
+  </ros>
 </vehicle>
