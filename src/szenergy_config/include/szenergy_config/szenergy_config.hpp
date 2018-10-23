@@ -32,9 +32,12 @@ class Configurer
 {
 private:
     tinyxml2::XMLDocument doc; ///< Root of the XML configuration
-    std::unique_ptr<szenergy::VehicleParameters> vec_param; ///< Vehicle parameters
-    std::unique_ptr<szenergy::OdometryParameters> odom_param; ///< Odometry parameters
+    std::shared_ptr<szenergy::VehicleParameters> vec_param; ///< Vehicle parameters
+    std::shared_ptr<szenergy::OdometryParameters> odom_param; ///< Odometry parameters
 public:
+    
+
+
     /**
      * @brief: Read config from file
      * 
@@ -104,7 +107,7 @@ public:
             throttle_joint_ids.push_back(std::atol(jointdef_element->GetText()));
         }
         
-        odom_param.reset (new szenergy::OdometryParameters(
+        odom_param.reset(new szenergy::OdometryParameters(
             odometry_element->FirstChildElement("odom_topic")->FirstChildElement("topicname")->GetText(),
             odometry_element->FirstChildElement("steer_topic")->FirstChildElement("topicname")->GetText(),
             odometry_element->FirstChildElement("throttle_topic")->FirstChildElement("topicname")->GetText(),
@@ -164,8 +167,8 @@ public:
                         wheel_radius,
                         wheelbase,
                         front_track,
-                        rear_track
-                    ));
+                        rear_track)
+                    );
 
                 }
                 else
@@ -178,18 +181,15 @@ public:
                 throw std::invalid_argument("Kinematic element not defined");
             }
             tinyxml2::XMLElement* ros_element = vehicle_element->FirstChildElement("ros");
-
             if (ros_element!=nullptr)
             {
-                ReadOdomParameters(ros_element);
-                std::cout << "Reading odometry parameters" << std::endl;
-                /*
-                odom_param.reset(new szenergy::OdometryParameters(odomp.odom_topic_name,
-                    odomp.steer_topic_name,
-                    odomp.throttle_topic_name,
-                    odomp.steer_joint_ids,
-                    odomp.throttle_joint_ids));
-                */
+                tinyxml2::XMLElement* odom_element = ros_element->FirstChildElement("odom");
+                if (odom_element != nullptr)
+                {
+                    std::cout << "Reading odometry parameters" << std::endl;
+                    ReadOdomParameters(ros_element);
+                }
+                
             }
             else
             {
@@ -218,46 +218,24 @@ public:
     /**
      * @brief: Return with the most actual vehicle parameters
      * */
-    const szenergy::OdometryParameters OdometryParameters()
+    const std::shared_ptr<szenergy::OdometryParameters> OdometryParameters()
     {
         // If the vehicle parameters are not available raise an error
         // otherwise return with a copy of it
-        if (odom_param!=nullptr)
-        {
-            return szenergy::OdometryParameters(odom_param->odom_topic_name,
-                odom_param->steer_topic_name,
-                odom_param->throttle_topic_name,
-                odom_param->steer_joint_ids,
-                odom_param->throttle_joint_ids
-            );
-        }
-        else
-        {
-            throw std::invalid_argument("NULL vec_param, cannot return");
-        }
+        
+        ROS_INFO("Getting odometry parameters");
+        return odom_param;
     }
     
     
     /**
      * @brief: Return with the most actual vehicle parameters
      * */
-    const szenergy::VehicleParameters VehicleParameters()
+    const std::shared_ptr<szenergy::VehicleParameters> VehicleParameters()
     {
         // If the vehicle parameters are not available raise an error
         // otherwise return with a copy of it
-        if (vec_param!=nullptr)
-        {
-            return szenergy::VehicleParameters(vec_param->vehicle_name,
-                vec_param->wheelradius,
-                vec_param->wheelbase,
-                vec_param->front_track,
-                vec_param->rear_track
-            );
-        }
-        else
-        {
-            throw std::invalid_argument("NULL vec_param, cannot return");
-        }
+        return vec_param;
     }
 
     /**
@@ -297,8 +275,7 @@ public:
                 std::cout << v << '\t'; 
             }
             std::cout << std::endl;
-        }
-        
+        }  
     }
     
 };

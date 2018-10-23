@@ -70,11 +70,11 @@ namespace szenergy
      * */
     struct OdometryParameters
     {
-        const std::string odom_topic_name;
-        const std::string steer_topic_name;
-        const std::string throttle_topic_name;
-        const std::vector<int> steer_joint_ids;
-        const std::vector<int> throttle_joint_ids;
+        std::string odom_topic_name;
+        std::string steer_topic_name;
+        std::string throttle_topic_name;
+        std::vector<int> steer_joint_ids;
+        std::vector<int> throttle_joint_ids;
 
         OdometryParameters(
             const std::string odom_topic_name,
@@ -84,9 +84,19 @@ namespace szenergy
             const std::vector<int> throttle_joint_ids): 
                 odom_topic_name(odom_topic_name),
                 steer_topic_name(steer_topic_name), 
-                throttle_topic_name(throttle_topic_name), 
+                throttle_topic_name(throttle_topic_name),
                 steer_joint_ids(steer_joint_ids),
                 throttle_joint_ids(throttle_joint_ids)
+        {
+            
+        }
+
+        OdometryParameters(const OdometryParameters& v):
+            odom_topic_name(v.odom_topic_name),
+            steer_topic_name(v.steer_topic_name),
+            throttle_topic_name(v.throttle_topic_name),
+            steer_joint_ids(v.steer_joint_ids),
+            throttle_joint_ids(v.throttle_joint_ids)
         {
             
         }
@@ -98,11 +108,11 @@ namespace szenergy
      * */
     struct VehicleParameters 
     {
-        const std::string vehicle_name; ///< Referenced name of the vehicle
-        const double wheelradius; ///< Radius of all of the wheels
-        const double wheelbase;   ///< Distance between the front and rear axis
-        const double front_track; ///< Front track width of a vehicle
-        const double rear_track;  ///< Rear track width of a vehicle
+        std::string vehicle_name; ///< Referenced name of the vehicle
+        double wheelradius; ///< Radius of all of the wheels
+        double wheelbase;   ///< Distance between the front and rear axis
+        double front_track; ///< Front track width of a vehicle
+        double rear_track;  ///< Rear track width of a vehicle
 
         /**
          * @param<vehicle_name>: vehicle name
@@ -111,6 +121,8 @@ namespace szenergy
          * @param<front_track>: front track width
          * @param<rear_track>: rear track width
          * */
+        
+
         VehicleParameters(const std::string vehicle_name,
             const double wheelradius,
             const double wheelbase,
@@ -123,6 +135,8 @@ namespace szenergy
             front_track(front_track),
             rear_track(rear_track) 
             {}
+        
+        
     };
 
     /**

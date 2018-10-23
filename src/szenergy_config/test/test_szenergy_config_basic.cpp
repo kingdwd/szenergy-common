@@ -17,12 +17,12 @@ TEST(BasicSzenergyTest, SzenergyConfigTest)
     try
     {
         conf.PrintSummary();
-        szenergy::VehicleParameters res = conf.VehicleParameters();
-        ASSERT_STREQ("szelectricity",res.vehicle_name.c_str());
-        ASSERT_DOUBLE_EQ(0.556/2.0, res.wheelradius);
-        ASSERT_DOUBLE_EQ(1.6, res.wheelbase);
-        ASSERT_DOUBLE_EQ(1.02, res.front_track);
-        ASSERT_DOUBLE_EQ(0.8, res.rear_track);
+        std::shared_ptr<szenergy::VehicleParameters> res = conf.VehicleParameters();
+        ASSERT_STREQ("szelectricity",res->vehicle_name.c_str());
+        ASSERT_DOUBLE_EQ(0.556/2.0, res->wheelradius);
+        ASSERT_DOUBLE_EQ(1.6, res->wheelbase);
+        ASSERT_DOUBLE_EQ(1.02, res->front_track);
+        ASSERT_DOUBLE_EQ(0.8, res->rear_track);
 
     }
     catch(const std::invalid_argument& e)
@@ -110,10 +110,50 @@ const std::string test_config_basic = "<?xml version=\"1.0\" ?>\
             </wheelparameters>\
         </kinematic>\        
         <ros>\
+            <vehicle>\
+                <steer_topic>\
+                    <topicname>steer</topicname>\
+                    <frequency>100.0</frequency>\
+                    <jointdefinition>0</jointdefinition>\
+                    <jointdefinition>1</jointdefinition>\
+                </steer_topic>\
+            </vehicle>\
+        </ros>\
+    </vehicle>";
+
+const std::string test_config_odom = "<?xml version=\"1.0\" ?>\
+    <vehicle>\
+        <name>car</name>\
+        <kinematic>\
+            <wheelbase>1.0</wheelbase>\
+            <front_track>1.0</front_track>\
+            <rear_track>0.5</rear_track>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\
+        </kinematic>\        
+        <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
                 <throttle_topic>/throttle</throttle_topic>\
             </control>\
+            <odom>\
+                <odom_topic>\
+                    <topicname>odom</topicname>\
+                    <frequency>50.0</frequency>\
+                </odom_topic>\
+                <steer_topic>\
+                    <topicname>steer</topicname>\
+                    <frequency>100.0</frequency>\
+                    <jointdefinition>0</jointdefinition>\
+                    <jointdefinition>1</jointdefinition>\
+                </steer_topic>\
+                <throttle_topic>\
+                    <topicname>throttle</topicname>\
+                    <frequency>100.0</frequency>\
+                    <jointdefinition>3</jointdefinition>\
+                </throttle_topic>\
+            </odom>\
         </ros>\
     </vehicle>";
 
@@ -124,7 +164,7 @@ void TestReadConfig(const std::string& test_config_basic)
     try
     {
         conf.SetupFromString(test_config_basic);
-        const szenergy::VehicleParameters param = conf.VehicleParameters();
+        const std::shared_ptr<szenergy::VehicleParameters> param = conf.VehicleParameters();
     }
     catch(const std::invalid_argument& e)
     {
@@ -147,12 +187,12 @@ TEST(ConfigReadTest, SzenergyConfigPointerVehicle)
     
     Configurer conf;
     conf.SetupFromString(test_config_basic);
-    const szenergy::VehicleParameters param = conf.VehicleParameters();
-    ASSERT_STREQ("car", param.vehicle_name.c_str());
-    ASSERT_DOUBLE_EQ(0.2, param.wheelradius);
-    ASSERT_DOUBLE_EQ(0.5, param.rear_track);
-    ASSERT_DOUBLE_EQ(1.0, param.front_track);
-    ASSERT_DOUBLE_EQ(1.0, param.wheelbase);
+    const std::shared_ptr<szenergy::VehicleParameters> param = conf.VehicleParameters();
+    ASSERT_STREQ("car", param->vehicle_name.c_str());
+    ASSERT_DOUBLE_EQ(0.2, param->wheelradius);
+    ASSERT_DOUBLE_EQ(0.5, param->rear_track);
+    ASSERT_DOUBLE_EQ(1.0, param->front_track);
+    ASSERT_DOUBLE_EQ(1.0, param->wheelbase);
 }
 
 TEST(ConfigReadTestFailure, SzenergyConfigPointerVehicleNameMissing)
@@ -164,10 +204,10 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerVehicleNameMissing)
             <wheelbase>1.0</wheelbase>\
             <front_track>1.0</front_track>\
             <rear_track>0.5</rear_track>\
-        </kinematic>\
-        <wheelparameters>\
-            <radius>0.2</radius>\
-        </wheelparameters>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\
+        </kinematic>\        
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
@@ -184,9 +224,6 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerVehicleKinematicElementMissing)
     const std::string test_config_basic = "<?xml version=\"1.0\" ?>\
     <vehicle>\
         <name>car</name>\
-        <wheelparameters>\
-            <radius>0.2</radius>\
-        </wheelparameters>\
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
@@ -238,6 +275,30 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerWheelParametersMissing2)
     TestReadConfig(test_config_basic);
 }
 
+TEST(ConfigReadTestFailure, SzenergyConfigRosPointer)
+{
+    
+    Configurer conf;
+    const std::string test_config_basic = "<?xml version=\"1.0\" ?>\
+    <vehicle>\
+        <name>car</name>\
+        <kinematic>\ 
+            <wheelbase>1.0</wheelbase>\
+            <front_track>1.0</front_track>\
+            <rear_track>0.5</rear_track>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\           
+        </kinematic>\
+    </vehicle>";
+    try {
+        conf.SetupFromString(test_config_basic);
+    }catch(std::invalid_argument &e){
+        std::cout << e.what() << std::endl;
+        EXIT_SUCCESS;
+    }
+}
+
 TEST(ConfigReadTestFailure, SzenergyConfigPointerVehicleKinematicWheelRadiusMissing)
 {
     const std::string test_config_basic = "<?xml version=\"1.0\" ?>\
@@ -247,9 +308,9 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerVehicleKinematicWheelRadiusMiss
             <wheelbase>1.0</wheelbase>\
             <front_track>1.0</front_track>\
             <rear_track>0.5</rear_track>\
-        </kinematic>\
-        <wheelparameters>\
-        </wheelparameters>\
+            <wheelparameters>\
+            </wheelparameters>\
+        </kinematic>\        
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
@@ -292,10 +353,10 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerRearTrackMissing)
         <kinematic>\
             <wheelbase>1.0</wheelbase>\
             <front_track>1.0</front_track>\
-        </kinematic>\
-        <wheelparameters>\
-            <radius>0.2</radius>\
-        </wheelparameters>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\
+        </kinematic>\        
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
@@ -316,10 +377,10 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerWheelBaseMissing)
         <kinematic>\
             <front_track>1.0</front_track>\
             <rear_track>0.5</rear_track>\
+            <wheelparameters>\
+                <radius>0.2</radius>\
+            </wheelparameters>\
         </kinematic>\
-        <wheelparameters>\
-            <radius>0.2</radius>\
-        </wheelparameters>\
         <ros>\
             <control>\
                 <steer_topic>/steer</steer_topic>\
@@ -328,6 +389,25 @@ TEST(ConfigReadTestFailure, SzenergyConfigPointerWheelBaseMissing)
         </ros>\
     </vehicle>";
     TestReadConfig(test_config_basic);
+}
+
+TEST(ConfigReadOdomParameters, SzenergyConfigOdomParameters)
+{
+    Configurer conf;
+    conf.SetupFromString(test_config_odom);
+    conf.PrintSummary();
+    if (conf.OdometryParameters()!=nullptr){
+        std::shared_ptr<szenergy::OdometryParameters> odom_param =
+            conf.OdometryParameters();
+        ASSERT_STREQ(odom_param->odom_topic_name.c_str(), "odom");
+        ASSERT_STREQ(odom_param->steer_topic_name.c_str(), "steer");
+        ASSERT_STREQ(odom_param->throttle_topic_name.c_str(), "throttle");
+        ASSERT_EQ(odom_param->steer_joint_ids[0], 0);
+        ASSERT_EQ(odom_param->steer_joint_ids[1], 1);
+        ASSERT_EQ(odom_param->throttle_joint_ids[0], 3);
+        EXIT_SUCCESS;
+    }
+    EXIT_FAILURE;
 }
 
 int main(int argc, char** argv)

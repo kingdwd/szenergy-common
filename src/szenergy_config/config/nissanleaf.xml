@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <vehicle>
-  <name>nissan_leaf</name>
+  <name>nissanleaf</name>
   <kinematic>
     <wheelbase>2.7</wheelbase>
     <front_track>1.54</front_track>
