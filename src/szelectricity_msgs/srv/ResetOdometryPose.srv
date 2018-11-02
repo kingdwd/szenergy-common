@@ -1,0 +1,4 @@
+geometry_msgs/Pose new_pose
+float64 weight
+---
+geometry_msgs/Pose updated_pose
