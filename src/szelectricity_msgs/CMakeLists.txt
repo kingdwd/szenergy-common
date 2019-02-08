@@ -54,6 +54,8 @@ add_message_files(
    FILES
    VehicleDashboardMessage.msg
    VehicleDriveMessage.msg
+   VehicleVelocityControlFeedback.msg
+   VehicleVelocityControlCommand.msg
 )
 
 ## Generate services in the 'srv' folder
