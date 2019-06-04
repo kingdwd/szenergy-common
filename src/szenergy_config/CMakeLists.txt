@@ -108,8 +108,8 @@ find_package(tinyxml2)
 catkin_package(
    INCLUDE_DIRS include
 #  LIBRARIES szenergy_config
-   CATKIN_DEPENDS roscpp rospy std_msgs
-   DEPENDS system_lib
+   CATKIN_DEPENDS roscpp rospy std_msgs szelectricity_common
+#   DEPENDS system_lib
 )
 
 ###########

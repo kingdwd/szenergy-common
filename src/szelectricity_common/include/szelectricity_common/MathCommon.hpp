@@ -26,64 +26,43 @@ namespace szenergy {
     /**
      *  @brief: Minimal clamp function
      * */
-    inline double Clamp(const double& val, const double& min, const double& max)
-    {
-        const double t = val < min ? min: val;
-        return t > max ? max : t; // This is minimal, yet efficient
-    }
+    double Clamp(const double& val, const double& min, const double& max);
 
     /**
      * @brief: Cutoff input value below a minimal value and above a maximal value
      * */
-    inline double CutoffRange(const double& val, 
+    double CutoffRange(const double& val, 
         const double& cutoffMin,     // Minimal value threshold
         const double& cutoffMinVal,  // Minimal returning value
         const double& cutoffMax,     // Maximal value threshold
         const double& cutoffMaxVal   // Maximal returning value
-        )
-    {
-        const double t = val < cutoffMin ? cutoffMinVal: val;
-        return t > cutoffMax ? cutoffMaxVal : t; // This is minimal, yet efficient
-    }
+        );
 
     /**
      *  @brief: Cutoff input value below a defined value
      * */
-    inline double CutoffMin(const double& val, const double& cutoff, const double& val_cutoff)
-    {
-        return val < cutoff ? val_cutoff : val;
-    }
+    double CutoffMin(const double& val, const double& cutoff, const double& val_cutoff);
 
     /**
      * @brief: Cutoff input value above a defined value
      * */
-    inline double CutoffMax(const double& val, const double& cutoff, const double& val_cutoff)
-    {
-        return val > cutoff ? val_cutoff : val;
-    }
+    double CutoffMax(const double& val, const double& cutoff, const double& val_cutoff);
 
     /**
      * @brief: Maximal threshold
      * */
-    inline double ThresholdMax(const double& val, const double& threshold)
-    {
-        return val < threshold ? val : threshold;
-    }
+    double ThresholdMax(const double& val, const double& threshold);
 
     /**
      * @brief: Minimal threshold
      * */
-    inline double ThresholdMin(const double& val, const double& threshold)
-    {
-        return val > threshold ? val : threshold;
-    }
+    double ThresholdMin(const double& val, const double& threshold);
 
     /**
      * @brief: Very useful one-liner sign function
      * */
-    template <typename T> int Sgn(const T& val) {
-        return (T(0) < val) - (val < T(0));  // No branches used, only simple arithmetics
-    }
+    template <typename T> int Sgn(const T& val);
+    template<> int Sgn<double>(const double&);
 }
 
 #endif
