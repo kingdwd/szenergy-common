@@ -38,31 +38,13 @@ namespace szenergy
      *  @brief: Quadratic approximation of measurement points
      *          of steer-front axle transmission used for Ackermann geometries
      * */
-    double steerTransmissionPoly(double steer_angle)
-    {
-        const double s = Sgn<double>(steer_angle);
-        const double sqr_angsteer = steer_angle*steer_angle;
-        const static double c2 = 0.00143;
-        const static double c1 = 0.1431;
-        const static double c0 = 0.001;
-        
-        return steer_angle!=0.0 ? s*(c0+c1*sqrt(sqr_angsteer)+c2*sqr_angsteer): 0.0;
-    }
+    double steerTransmissionPoly(double steer_angle);
 
     /**
      *  @brief: Quadratic approximation of measurement points
      *          of steer-front axle transmission based on measurements
      * */
-    double steerTransmissionDataPoly(double steer_angle)
-    {
-        const double sqr_angsteer = steer_angle*steer_angle;
-        const static double c3 = 0.001838;
-        const static double c2 = -0.00772;
-        const static double c1 = 0.14963;
-        const static double c0 = 0.000504;
-        
-        return steer_angle != 0.0 ? c3*sqr_angsteer*steer_angle+c2*sqr_angsteer+c1*steer_angle+c0: 0.0;
-    }
+    double steerTransmissionDataPoly(double steer_angle);
 
     /**
      * @brief: Odometry parameters
@@ -113,6 +95,7 @@ namespace szenergy
         double wheelbase;   ///< Distance between the front and rear axis
         double front_track; ///< Front track width of a vehicle
         double rear_track;  ///< Rear track width of a vehicle
+        double cog_ratio;   ///< COG ratio
 
         /**
          * @param<vehicle_name>: vehicle name
@@ -120,6 +103,7 @@ namespace szenergy
          * @param<wheelbase>: wheel base (axle-axle distance)
          * @param<front_track>: front track width
          * @param<rear_track>: rear track width
+         * @param<cog_ratio>: COG ration
          * */
         
 
@@ -127,13 +111,15 @@ namespace szenergy
             const double wheelradius,
             const double wheelbase,
             const double front_track,
-            const double rear_track
+            const double rear_track,
+            const double cog_ratio
         ): 
             vehicle_name(vehicle_name),
             wheelradius(wheelradius), 
             wheelbase(wheelbase), 
             front_track(front_track),
-            rear_track(rear_track) 
+            rear_track(rear_track),
+            cog_ratio(cog_ratio) 
             {}
         
         

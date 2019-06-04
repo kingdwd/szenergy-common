@@ -39,13 +39,7 @@ namespace szenergy
         std_msgs::Bool msg_brake;     ///< Brake message to be published
     };
 
-    bool operator==(const RosTeleopPubState& lhs, const RosTeleopPubState& rhs)
-    {
-        return 
-            rhs.msg_torque.data == lhs.msg_torque.data &&
-            rhs.msg_steer.data == lhs.msg_steer.data &&
-            (rhs.msg_brake.data == lhs.msg_brake.data);
-    }
+    bool operator==(const RosTeleopPubState& lhs, const RosTeleopPubState& rhs);
 
     /**
      * @brief: Structure to store required parameters for teleoperation

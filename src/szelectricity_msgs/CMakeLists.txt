@@ -111,7 +111,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES szelectricity_msgs
-#  CATKIN_DEPENDS message_generation message_runtime roscpp rospy
+#  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
 )
 
