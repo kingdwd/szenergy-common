@@ -95,6 +95,7 @@ namespace szenergy
         double wheelbase;   ///< Distance between the front and rear axis
         double front_track; ///< Front track width of a vehicle
         double rear_track;  ///< Rear track width of a vehicle
+        double cog_ratio;   ///< COG ratio
 
         /**
          * @param<vehicle_name>: vehicle name
@@ -102,6 +103,7 @@ namespace szenergy
          * @param<wheelbase>: wheel base (axle-axle distance)
          * @param<front_track>: front track width
          * @param<rear_track>: rear track width
+         * @param<cog_ratio>: COG ration
          * */
         
 
@@ -109,13 +111,15 @@ namespace szenergy
             const double wheelradius,
             const double wheelbase,
             const double front_track,
-            const double rear_track
+            const double rear_track,
+            const double cog_ratio
         ): 
             vehicle_name(vehicle_name),
             wheelradius(wheelradius), 
             wheelbase(wheelbase), 
             front_track(front_track),
-            rear_track(rear_track) 
+            rear_track(rear_track),
+            cog_ratio(cog_ratio) 
             {}
         
         

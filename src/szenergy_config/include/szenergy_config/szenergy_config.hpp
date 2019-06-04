@@ -142,6 +142,7 @@ public:
                 tinyxml2::XMLElement* fronttrack_element = kinematic_element->FirstChildElement("front_track");
                 tinyxml2::XMLElement* reartrack_element = kinematic_element->FirstChildElement("rear_track");
                 tinyxml2::XMLElement* wheelp_element = kinematic_element->FirstChildElement("wheelparameters");
+                tinyxml2::XMLElement* cogratio_element = kinematic_element->FirstChildElement("cog_ratio");
                 // If any elements are invalid raise error, otherwise set parameters
                 if (wheelbase_element != nullptr &&
                     fronttrack_element != nullptr &&
@@ -153,6 +154,7 @@ public:
                     double wheelbase = std::atof(wheelbase_element->GetText());
                     double front_track = std::atof(fronttrack_element->GetText());
                     double rear_track = std::atof(reartrack_element->GetText());
+                    double cog_ratio = std::atof(cogratio_element->GetText());
                     // Check if the wheel radius element exists
                     // otherwise throw an error
                     auto wheel_radius_element = wheelp_element->FirstChildElement("radius");
@@ -167,7 +169,8 @@ public:
                         wheel_radius,
                         wheelbase,
                         front_track,
-                        rear_track)
+                        rear_track,
+                        cog_ratio)
                     );
 
                 }
