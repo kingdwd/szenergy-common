@@ -38,13 +38,13 @@ namespace szenergy
      *  @brief: Quadratic approximation of measurement points
      *          of steer-front axle transmission used for Ackermann geometries
      * */
-    double steerTransmissionPoly(double steer_angle);
+    double steerTransmissionPoly(const double steer_angle);
 
     /**
      *  @brief: Quadratic approximation of measurement points
      *          of steer-front axle transmission based on measurements
      * */
-    double steerTransmissionDataPoly(double steer_angle);
+    double steerTransmissionDataPoly(const double steer_angle);
 
     /**
      * @brief: Odometry parameters

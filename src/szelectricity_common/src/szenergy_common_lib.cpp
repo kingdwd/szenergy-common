@@ -28,7 +28,7 @@ namespace szenergy
         return false;
     }
 
-    extern double steerTransmissionDataPoly(double steer_angle)
+    extern double steerTransmissionDataPoly(const double steer_angle)
     {
         const double sqr_angsteer = steer_angle*steer_angle;
         const static double c3 = 0.001838;
@@ -39,7 +39,7 @@ namespace szenergy
         return steer_angle != 0.0 ? c3*sqr_angsteer*steer_angle+c2*sqr_angsteer+c1*steer_angle+c0: 0.0;
     }
 
-    extern double steerTransmissionPoly(double steer_angle)
+    extern double steerTransmissionPoly(const double steer_angle)
     {
         const double s = Sgn<double>(steer_angle);
         const double sqr_angsteer = steer_angle*steer_angle;
@@ -145,11 +145,7 @@ namespace szenergy
         return val > threshold ? val : threshold;
     }
 
-    template <typename T> int Sgn(const T& val) {
-        return (T(0) < val) - (val < T(0));  // No branches used, only simple arithmetics
-    }
-
-    template <> int Sgn(const double& val) {
+    template<> int Sgn(const double& val) {
         return (0.0 < val) - (val < 0.0);  // No branches used, only simple arithmetics
     }
 }
