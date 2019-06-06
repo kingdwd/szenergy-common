@@ -200,17 +200,22 @@ install(DIRECTORY include/${PROJECT_NAME}/
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 ## Add gtest based cpp test target and link libraries
 catkin_add_gtest(mathfunction-test test/test_mathfunctions.cpp)
-catkin_add_gtest(test-timingfunctions test/test_timefunctions.cpp)
+#catkin_add_gtest(test-timingfunctions test/test_timefunctions.cpp)
 catkin_add_gtest(test-constants test/test_constants.cpp)
 catkin_add_gtest(mathgeometry-test test/test_mathgeometry.cpp)
 catkin_add_gtest(vehicle_parameters-test test/test_vehicle_parameters.cpp)
 catkin_add_gtest(vehicle_teleoperation-test test/test_teleoperation.cpp)
-target_link_libraries(vehicle_teleoperation-test ${catkin_LIBRARIES})
-target_link_libraries(test-timingfunctions ${catkin_LIBRARIES})
+
+target_link_libraries(mathfunction-test ${catkin_LIBRARIES} szenergy_common_lib)
+#target_link_libraries(test-timingfunctions ${catkin_LIBRARIES} szenergy_common_lib)
+target_link_libraries(test-constants ${catkin_LIBRARIES} szenergy_common_lib)
+target_link_libraries(mathgeometry-test ${catkin_LIBRARIES} szenergy_common_lib)
+target_link_libraries(vehicle_parameters-test ${catkin_LIBRARIES} szenergy_common_lib)
+target_link_libraries(vehicle_teleoperation-test ${catkin_LIBRARIES} szenergy_common_lib)
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_szelectricity_common.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+#if(TARGET test-timingfunctions)
+#  target_link_libraries(test-timingfunctions ${catkin_LIBRARIES})
+#endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

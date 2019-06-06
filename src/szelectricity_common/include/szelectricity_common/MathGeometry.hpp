@@ -33,13 +33,13 @@ namespace szenergy {
      * @brief: This is a simple function written to rotate a pose
      *         around the z-axis
      * */
-    inline geometry_msgs::Pose RotateYaw(geometry_msgs::Pose &c, const double yaw);
+    geometry_msgs::Pose RotateYaw(geometry_msgs::Pose &c, const double yaw);
     
     /**
      * @brief: utility function to derive yaw from a quaternion
      *         RPY used as an Euler-rotation convention
      * */
-    static inline double GetYawFromQuaternion(const geometry_msgs::Pose &c);
+    double GetYawFromQuaternion(const geometry_msgs::Pose &c);
     /**
      *  @brief: utility function to convert an 
      *         RPY yaw (rotation around z-axis) to quaternion values
