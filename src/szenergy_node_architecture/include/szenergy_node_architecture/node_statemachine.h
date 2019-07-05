@@ -5,7 +5,7 @@
 
 enum class NODE_STATE {START, RUNNING, ERROR, SHUTDOWN};
 
-enum class PORT_STATE {INIT, RUNNING, ERROR};
+enum class PORT_STATE {INIT, WAITING, RUNNING, ERROR};
 
 class NodeStateMachine 
 {
@@ -54,6 +54,10 @@ public:
     {
         return state==PORT_STATE::RUNNING && parent->isRunning();
     }
+    inline bool isWaiting()
+    {
+        return state==PORT_STATE::WAITING && parent->isRunning();
+    }
     inline bool isError()
     {
         return state==PORT_STATE::ERROR || parent->isError();
@@ -64,6 +68,7 @@ public:
     }
     bool transitRunning();              /// Setup of subscriber is complete
     bool transitError();                /// Error caught
+    bool transitInitialize();           /// Transit from waiting state (after 1st update/publish)
     /// Error handling
     bool transitReset();                /// Re-initialize
     bool transitContinueFromError();    /// Continue from error state

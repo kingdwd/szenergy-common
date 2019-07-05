@@ -83,6 +83,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalRunning)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     ASSERT_TRUE(sm_0.isRunning());
 }
@@ -92,7 +93,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalError)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
-    sm_0.transitRunning();
+    sm_0.transitInitialize();
+    sm_0.transitRunning();    
     sm_0.transitError();
     ASSERT_FALSE(sm_0.isRunning());
     ASSERT_TRUE(sm_0.isError());
@@ -103,6 +105,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandling)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     sm_0.transitError();
     sm_0.transitRunning();
@@ -115,6 +118,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingReset)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     sm_0.transitError();
     sm_0.transitReset();
@@ -128,6 +132,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingContinue)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     sm_0.transitError();
     sm_0.transitContinueFromError();
@@ -140,6 +145,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalParentError)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     node_sm->transitError();
     ASSERT_TRUE(sm_0.isError());
@@ -150,6 +156,7 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalParentShutdown)
     std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
     PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
+    sm_0.transitInitialize();
     sm_0.transitRunning();
     node_sm->transitShutdown();
     ASSERT_FALSE(sm_0.isError());

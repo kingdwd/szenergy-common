@@ -57,9 +57,19 @@ bool NodeStateMachine::transitReset()
 
 bool PortStateMachine::transitRunning()
 {
-    if (state==PORT_STATE::INIT && parent->isRunning())
+    if (state==PORT_STATE::WAITING && parent->isRunning())
     {
         state = PORT_STATE::RUNNING;
+        return true;
+    }
+    return false;
+}
+
+bool PortStateMachine::transitInitialize()
+{
+    if (state==PORT_STATE::INIT && parent->isRunning())
+    {
+        state = PORT_STATE::WAITING;
         return true;
     }
     return false;
