@@ -125,6 +125,20 @@ namespace szenergy
         
     };
 
+    struct VehicleKinematicLimits
+    {
+        const double wheel_angle_limit;
+        const double steer_angle_limit;
+
+        VehicleKinematicLimits(
+                const double wheelanglim,
+                const double steeranglim
+            ):
+            wheel_angle_limit(wheelanglim),
+            steer_angle_limit(steeranglim)
+        {}
+    };
+
     struct VehicleDynamicParameters
     {
         const double aerodrag;
