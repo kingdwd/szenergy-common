@@ -61,7 +61,7 @@ namespace szenergy
         return q;
     }
 
-    static inline double GetYawFromQuaternion(const geometry_msgs::Pose &c)
+    double GetYawFromQuaternion(const geometry_msgs::Pose &c)
     {
         const double x = c.orientation.x;
         const double y = c.orientation.y;
@@ -88,7 +88,7 @@ namespace szenergy
     }
 
 
-    extern geometry_msgs::Pose RotateYaw(geometry_msgs::Pose &c, const double yaw)
+    geometry_msgs::Pose RotateYaw(geometry_msgs::Pose &c, const double yaw)
     {
         geometry_msgs::Pose res(c);
         // This can be verified by simple math,

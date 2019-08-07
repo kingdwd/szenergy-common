@@ -91,11 +91,11 @@ namespace szenergy
     struct VehicleParameters 
     {
         std::string vehicle_name; ///< Referenced name of the vehicle
-        double wheelradius; ///< Radius of all of the wheels
-        double wheelbase;   ///< Distance between the front and rear axis
-        double front_track; ///< Front track width of a vehicle
-        double rear_track;  ///< Rear track width of a vehicle
-        double cog_ratio;   ///< COG ratio
+        const double wheelradius; ///< Radius of all of the wheels
+        const double wheelbase;   ///< Distance between the front and rear axis
+        const double front_track; ///< Front track width of a vehicle
+        const double rear_track;  ///< Rear track width of a vehicle
+        const double cog_ratio;   ///< COG ratio
 
         /**
          * @param<vehicle_name>: vehicle name
@@ -123,6 +123,21 @@ namespace szenergy
             {}
         
         
+    };
+
+    struct VehicleDynamicParameters
+    {
+        const double aerodrag;
+        const double motordrag;
+        const double rollingcoefficient;
+
+        VehicleDynamicParameters(const double aerodrag,
+                const double motordrag,
+                const double rollingcoefficient):
+            aerodrag(aerodrag),
+            motordrag(motordrag),
+            rollingcoefficient(rollingcoefficient)
+        {}
     };
 
     /**
