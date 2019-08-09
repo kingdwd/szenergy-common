@@ -185,6 +185,7 @@ class AbstractStateNode
 private:
 protected:
     std::shared_ptr<ros::NodeHandle> nh;
+    std::shared_ptr<ros::NodeHandle> private_nh;
     std::shared_ptr<NodeStateMachine> node_state_machine;
     std::vector<std::shared_ptr<PortStateMachine> > sub_port_state_machines; 
     std::vector<std::shared_ptr<PortStateMachine> > pub_port_state_machines; 
@@ -205,7 +206,7 @@ protected:
         return node_state_machine->isRunning() && (p_sm->isWaiting() || p_sm->isRunning());
     }
 public:
-    AbstractStateNode(std::shared_ptr<ros::NodeHandle> nh): 
+    AbstractStateNode(std::shared_ptr<ros::NodeHandle> nh, std::shared_ptr<ros::NodeHandle> private_nh):
         nh(nh),
         node_state_machine(new NodeStateMachine())
     {}

@@ -34,7 +34,7 @@ public:
     bool transitError();                /// Error caught
     bool transitShutdown();             /// Shut down node
     /// Error handling
-    bool transitReset();                /// Re-initialize
+    bool transitReset();                /// Reset
     bool transitContinueFromError();    /// Continue from error state
 };
 
