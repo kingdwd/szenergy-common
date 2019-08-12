@@ -3,6 +3,9 @@
 
 /// Node state machine
 
+namespace szenergy
+{
+
 bool NodeStateMachine::transitRunning()
 {
     if (state==NODE_STATE::START)
@@ -103,4 +106,6 @@ bool PortStateMachine::transitReset()
         return true;
     }
     return false;
+}
+
 }
