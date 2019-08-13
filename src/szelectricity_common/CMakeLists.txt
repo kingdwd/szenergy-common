@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(Eigen3 REQUIRED COMPONENTS Dense)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -126,12 +127,15 @@ ENDIF(CMAKE_BUILD_TYPE MATCHES Coverage)
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
   include/
 )
 
 ## Declare a C++ library
 add_library(szenergy_common_lib
   src/szenergy_common_lib.cpp
+  src/szenergy_configuration.cpp
+  src/szenergy_configuration_vector.cpp
 )
 
 ## Add cmake target dependencies of the library

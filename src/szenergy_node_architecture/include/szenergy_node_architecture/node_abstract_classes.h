@@ -33,150 +33,21 @@ namespace szenergy {
 			synchronizing_port_sm.push_back(sm);
 		}
 
-		bool synchronized()
-		{
-			bool is_synchronized = true;
-			for (const auto& sm: synchronizing_port_sm)
-			{
-				if (!sm->isRunning())
-				{
-					is_synchronized &= 0;
-					return is_synchronized;
-				}
-			}
+		bool synchronized();
 
-			return is_synchronized;
-		}
+		bool transitSynchronizing();
 
-		bool transitSynchronizing()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::WAITING:
-				{
-					if (synchronized())
-					{
-						state = CONTROLSTATE_STATES::SYNCHRONIZED;
-						return true;
-					}
-					else
-					{
-						return false;
-					}
-					break;
-				}
-				default:
-				{
-					return false;
-				}
-			}
-			return false;
-		}
+		bool transitDanger();
 
-		bool transitDanger()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::SYNCHRONIZED:
-				{
-					state = CONTROLSTATE_STATES::DANGER;
-					return true;
-					break;
-				}
-				default:
-				{
-					return false;
-					break;
-				}
-			}
-		}
+		bool transitWaiting();
 
-		bool transitWaiting()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::DANGER:
-				{
-					state = CONTROLSTATE_STATES::WAITING;
-					return true;
-					break;
-				}
-				default:
-				{
-					return false;
-					break;
-				}
-			}
-		}
+		bool transitDangerHandled();
 
-		bool transitDangerHandled()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::DANGER:
-				{
-					transitWaiting();
-					return true;
-					break;
-				}
-				default:
-				{
-					return false;
-				}
-			}
-		}
+		bool transitDisabled();
 
-		bool transitDisabled()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::SYNCHRONIZED:
-				case CONTROLSTATE_STATES::DANGER:
-				{
-					state = CONTROLSTATE_STATES::DISABLED;
-					break;
-				}
-			}
-		}
+		bool transitDangerUnhandled();
 
-		bool transitDangerUnhandled()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::DANGER:
-				{
-					transitDisabled();
-					synchronizing_hierarch_sm->transitError();
-					break;
-				}
-			}
-		}
-
-		void transform()
-		{
-			switch(state)
-			{
-				case CONTROLSTATE_STATES::WAITING:
-				{
-					transitSynchronizing();
-					break;
-				}
-				case CONTROLSTATE_STATES::SYNCHRONIZED:
-				{
-					transformFunc();
-					break;
-				}
-				case CONTROLSTATE_STATES::DANGER:
-				{
-					handlingDanger();
-					break;
-				}
-				case CONTROLSTATE_STATES::DISABLED:
-				{
-					break;
-				}
-			}
-		}
+		void transform();
 
 		virtual void transformFunc() = 0;
 		virtual void handlingDanger() = 0;
@@ -192,24 +63,16 @@ namespace szenergy {
 		std::vector<std::shared_ptr<PortStateMachine> > sub_port_state_machines;
 		std::vector<std::shared_ptr<PortStateMachine> > pub_port_state_machines;
 
-		bool setAllSubPortStateMachineRunning()
-		{
-			for (const auto &sm: sub_port_state_machines)
-			{
-				if (!sm->transitInitialize())
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		bool processingAllowedOnPort(std::shared_ptr<PortStateMachine> p_sm)
+		bool setAllSubPortStateMachineRunning();
+
+		inline bool processingAllowedOnPort(std::shared_ptr<PortStateMachine> p_sm)
 		{
 			return node_state_machine->isRunning() && (p_sm->isWaiting() || p_sm->isRunning());
 		}
 	public:
 		AbstractStateNode(std::shared_ptr<ros::NodeHandle> nh, std::shared_ptr<ros::NodeHandle> private_nh):
 			nh(nh),
+			private_nh(private_nh),
 			node_state_machine(new NodeStateMachine())
 		{}
 	};
