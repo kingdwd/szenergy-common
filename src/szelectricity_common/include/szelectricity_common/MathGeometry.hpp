@@ -45,6 +45,11 @@ namespace szenergy {
      *         RPY yaw (rotation around z-axis) to quaternion values
      * */
     geometry_msgs::Quaternion YawToQuaternion(const double yaw);
+
+    /**
+     * @brief: Distance between position
+     */
+    double DistanceBetweenTwoPose(const geometry_msgs::Pose &p0, const geometry_msgs::Pose &p1);
 }
 
 #endif

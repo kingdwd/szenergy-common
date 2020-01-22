@@ -5,7 +5,7 @@
 
 TEST(TestStateMachine, testNormalStateMachine)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitRunning();
     ASSERT_FALSE(statemachine.isError());
     ASSERT_TRUE(statemachine.isRunning());
@@ -16,7 +16,7 @@ TEST(TestStateMachine, testNormalStateMachine)
 
 TEST(TestStateMachine, testErrorStateMachine)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitRunning();
     ASSERT_TRUE(statemachine.isRunning());
     statemachine.transitError();
@@ -29,7 +29,7 @@ TEST(TestStateMachine, testErrorStateMachine)
 
 TEST(TestStateMachine, testStartNoImmediateErrorAndShutdown)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitError();
     ASSERT_FALSE(statemachine.isError());
     statemachine.transitShutdown();
@@ -38,7 +38,7 @@ TEST(TestStateMachine, testStartNoImmediateErrorAndShutdown)
 
 TEST(TestStateMachine, testErrorHandling)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitRunning();
     statemachine.transitError();
     ASSERT_TRUE(statemachine.isError());
@@ -49,7 +49,7 @@ TEST(TestStateMachine, testErrorHandling)
 
 TEST(TestStateMachine, testErrorHandlingContinue)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitRunning();
     statemachine.transitError();
     ASSERT_TRUE(statemachine.isError());
@@ -60,7 +60,7 @@ TEST(TestStateMachine, testErrorHandlingContinue)
 
 TEST(TestStateMachine, testErrorHandlingReset)
 {
-    NodeStateMachine statemachine;
+    szenergy::NodeStateMachine statemachine;
     statemachine.transitRunning();
     statemachine.transitError();
     ASSERT_TRUE(statemachine.isError());
@@ -72,16 +72,16 @@ TEST(TestStateMachine, testErrorHandlingReset)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalNotRunning)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     sm_0.transitRunning();
     ASSERT_FALSE(sm_0.isRunning());
 }
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalRunning)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();
@@ -90,8 +90,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalRunning)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalError)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();    
@@ -102,8 +102,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalError)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandling)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();
@@ -115,8 +115,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandling)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingReset)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();
@@ -129,8 +129,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingReset)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingContinue)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();
@@ -142,8 +142,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalErrorHandlingContinue)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalParentError)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();
@@ -153,8 +153,8 @@ TEST(TestHierarchicalStateMachine, testBasicHierarchicalParentError)
 
 TEST(TestHierarchicalStateMachine, testBasicHierarchicalParentShutdown)
 {
-    std::shared_ptr<NodeStateMachine> node_sm(new NodeStateMachine());
-    PortStateMachine sm_0(node_sm);
+    std::shared_ptr<szenergy::NodeStateMachine> node_sm(new szenergy::NodeStateMachine());
+    szenergy::PortStateMachine sm_0(node_sm);
     node_sm->transitRunning();
     sm_0.transitInitialize();
     sm_0.transitRunning();

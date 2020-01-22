@@ -152,4 +152,12 @@ namespace szenergy
     template <> int Sgn(const double& val) {
         return (0.0 < val) - (val < 0.0);  // No branches used, only simple arithmetics
     }
+
+    double DistanceBetweenTwoPose(const geometry_msgs::Pose &p0, const geometry_msgs::Pose &p1)
+    {
+    	double dx = p0.position.x - p1.position.x;
+    	double dy = p0.position.y - p1.position.y;
+    	double dz = p0.position.z - p1.position.z;
+    	return sqrt(dx*dx + dy*dy + dz*dz);
+    }
 }
